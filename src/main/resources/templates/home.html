@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <!-- fragment head -->
+  <head th:insert="~(index::head)"> </head
+  >>
+  <!-- Fine fragment head -->
+
+  <body>
+    <!-- fragment body -->
+    <head th:insert="~(index::navbar)"></head>
+
+    <!-- ? Footer -->
+    <head th:insert="~(index::footer)"></head>
+
+    <div class="container-fluid">
+      <div class="row ms-5 vh-100 align-items-center">
+        <div class="col-10">
+          <h1 class="mb-5">
+            Welcome to
+            <span class="display-4 fw-bold d-block"> New Aulab Chronicles</span>
+          </h1>
+        </div>
+      </div>
+    </div>
+
+    <!-- ! bootstrap script -->
+    <script th:insert="~(index::bootstrapScript)"></script>
+  </body>
+</html>
