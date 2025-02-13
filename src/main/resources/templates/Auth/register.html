@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <th:block th:replace="index::head"></th:block>
+  </head>
+  <body>
+    <th:block th:replace="index::navbar"></th:block>
+
+    <div class="vh-100">
+      <br /><br /><br />
+
+      <div class="container">
+        <div class="row col-md-8 offset-md-2">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="text-center">Registration</h2>
+            </div>
+            <div th:if="${param.success}">
+              <div class="alert alert-info">
+                Ti sei registrato con successo!
+              </div>
+            </div>
+            <div class="card-body">
+              <form
+                method="post"
+                role="form"
+                th:action="@{/register/save}"
+                th:object="${user}"
+              >
+                <div class="form-group mb-3">
+                  <label class="form-label"> Nome </label>
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    class="form-control"
+                    placeholder="Il tuo nome"
+                    th:field="*{firstName}"
+                  />
+                  <p
+                    th:errors="*{firstName}"
+                    class="text-danger"
+                    th:if="${#fields.hasErrors('firstName')}"
+                  ></p>
+                </div>
+                <div class="form-group mb-3">
+                  <label class="form-label">Cognome</label>
+                  <input
+                    class="form-control"
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    placeholder="Il tuo cognome"
+                    th:field="*{lastName}"
+                  />
+                  <p
+                    th:errors="*{lastName}"
+                    class="text-danger"
+                    th:if="${#fields.hasErrors('lastName')}"
+                  ></p>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label class="form-label">Email</label>
+                  <input
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    type="text"
+                    placeholder="La tua email"
+                    th:field="*{email}"
+                  />
+                  <p
+                    th:errors="*{email}"
+                    class="text-danger"
+                    th:if="${#fields.hasErrors('email')}"
+                  ></p>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label class="form-label">Password</label>
+                  <input
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Scegli una Password"
+                    th:field="*{password}"
+                  />
+                  <p
+                    th:errors="*{password}"
+                    class="text-danger"
+                    th:if="${#fields.hasErrors('password')}"
+                  ></p>
+                </div>
+
+                <div class="form-group">
+                  <button class="btn btn-primary" type="submit">
+                    Registrati
+                  </button>
+
+                  <span
+                    >Già registrato? <a th:href="@{/login}">Accedi!</a></span
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <th:block th:replace="index::footer"></th:block>
+    <th:block th:replace="index::bootstrapScript"></th:block>
+  </body>
+</html>

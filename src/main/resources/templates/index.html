@@ -58,13 +58,13 @@
               >
 
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="">Registrati</a></li>
-                <li><a class="dropdown-item" href="">Login</a></li>
-                <li><a class="dropdown-item" href="">Logout</a></li>
+                <li><a class="dropdown-item" href="@{/register}">Registrati</a></li>
+                <li><a class="dropdown-item" href="@{/login}">Login</a></li>
+                <li><a class="dropdown-item" href="@{/logout}">Logout</a></li>
               </ul>
             </li>
           </ul>
-          <div>Bevenuto</div>
+          <div sec:authorize="isAuthenticated" th:text="'Benvenuto: ' + ${#authentication.principal.fullname} + ' - ' + ${#authentication.principal.authorities[0].authority.replace('Role_','')}">Bevenuto</div>
         </div>
       </div>
       <form class="d-flex">
