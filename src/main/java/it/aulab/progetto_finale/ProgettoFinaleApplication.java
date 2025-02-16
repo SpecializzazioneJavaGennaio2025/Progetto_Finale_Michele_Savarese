@@ -1,5 +1,6 @@
 package it.aulab.progetto_finale;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,12 @@ public class ProgettoFinaleApplication {
 {
    return new BCryptPasswordEncoder();
 
+}
+
+@Bean
+public ModelMapper instanceModelMapper(){
+	ModelMapper mapper = new ModelMapper();
+	return mapper;
 }
 
 

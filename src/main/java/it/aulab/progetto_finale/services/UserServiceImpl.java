@@ -32,11 +32,12 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  @Autowired
-  private AuthenticationManager authenticationManager;
 
   @Autowired
   private CustomUserDetailService customUserDetailsService;
+
+  @Autowired
+  private AuthenticationManager authenticationManager;
 
 @Override
 public User findUserByEmail(String email) {

@@ -75,8 +75,12 @@ model.addAttribute("user", userDto);
 userService.saveUser(userDto,redirectAttributes,request,response);
 redirectAttributes.addFlashAttribute("successMessage", "Registrazione avvenuta con successo");
 
-return "redirect:/register?success";
+// return "redirect:/register?success";
 
+return "redirect:/";
 
 }
+
+
+
 }
