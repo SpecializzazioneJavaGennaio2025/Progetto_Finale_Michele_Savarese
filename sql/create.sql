@@ -13,7 +13,6 @@ CREATE TABLE categories (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50)
 );
-
 CREATE TABLE articles (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100),
@@ -26,11 +25,16 @@ CREATE TABLE articles (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
-
 CREATE TABLE users_roles (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT,
     role_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+create TABLE images(
+    id BIGINT auto_increment PRIMARY KEY,
+    path VARCHAR(255) NOT NULL,
+    article_id BIGINT,
+    foreign key(article_id) references articles(id)
 );

@@ -79,4 +79,9 @@ public void saveUser(UserDto userDto, RedirectAttributes redirectAttributes, Htt
         }
     }
 
+    @Override
+    public User find(Long id) {
+        return userRepository.findById(id).get();
+    }
+
 }

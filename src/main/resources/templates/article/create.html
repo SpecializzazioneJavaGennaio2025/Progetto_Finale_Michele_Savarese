@@ -1,60 +1,126 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{index :: head}"></head>
-<body>
+  <head th:insert="~{index :: head}"></head>
+  <body>
     <div th:insert="~{index :: nav}"></div>
-        <div class="vh-100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 my-5 d-flex justify-content-between align-items center">
-                        <div class="d-flex justify-content-center align-items-center flex-grow-1">
-                            <h1 th:text="${title}">
-                               Crea articolo
-                            </h1>
-                        </div>
-                    </div>
-                    <div class="col-12 my-5">
-                        <form th:action="@{/articles}" method="post" th:object="${article}" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <div class="col">
-                                    <label for="articleTitle" class="form-label">Titolo</label>
-                                    <input type="text" id="articleTitle" class="form-control" th:field="*{title}" placeholder="Insert the title here">
-                                    <p th:errors="*{title}" class="text-danger" th:if="${#fields.hasErrors('title')}"></p>
-                                </div>
-                                <div class="col">
-                                    <label for="subtitle" class="form-label">Sottotitolo</label>
-                                    <input type="text" id="subtitle" class="form-control" th:field="*{subtitle}" placeholder="Insert the subtitle here">
-                                    <p th:errors="*{subtitle}" class="text-danger" th:if="${#fields.hasErrors('subtitle')}"></p>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="body" class="form-label">Descrizione:</label>
-                                <input type="text" id="body" class="form-control" th:field="*{body}" placeholder="Insert the body of the article here">
-                                <p th:errors="*{body}" class="text-danger" th:if="${#fields.hasErrors('body')}"></p>
-                            </div>
-                            <div class="mb-3">
-                                <label for="date" class="form-label">Publish date</label>
-                                <input type="date" id="date" class="form-control" th:field="*{publishDate}" placeholder="yyyyMMdd">
-                                <p th:errors="*{publishDate}" class="text-danger" th:if="${#fields.hasErrors('publishDate')}"></p>
-                            </div>
-                            <div class="mb-3">
-                                <label for="category" class="form-control">Category</label>
-                                <select id="category" th:field="*{category}" class="form-select">
-                                    <option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-                                    <p th:errors="*{category}" class="text-danger" th:if="${#fields.hasErrors('category')}"></p>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="image" class="form-label">Image</label>
-                                <input type="file" name="file" id="image" class="form-control">
-                            </div>
-                            <button type="submit" class="btn btn-success">Crea Articolo!</button>
-                        </form>
-                    </div>
-                </div>
+    <div class="vh-100">
+      <div class="container">
+        <div class="row">
+          <div
+            class="col-12 my-5 d-flex justify-content-between align-items center"
+          >
+            <div
+              class="d-flex justify-content-center align-items-center flex-grow-1"
+            >
+              <h1 th:text="${title}">Crea articolo</h1>
             </div>
+          </div>
+          <div class="col-12 my-5">
+            <form
+              th:action="@{/articles}"
+              method="post"
+              th:object="${article}"
+              enctype="multipart/form-data"
+            >
+              <div class="mb-3">
+                <div class="col">
+                  <label for="articleTitle" class="form-label">Titolo</label>
+                  <input
+                    type="text"
+                    id="articleTitle"
+                    class="form-control"
+                    th:field="*{title}"
+                    placeholder="Insert the title here"
+                  />
+                  <p
+                    th:errors="*{title}"
+                    class="text-danger"
+                    th:if="${#fields.hasErrors('title')}"
+                  ></p>
+                </div>
+                <div class="col">
+                  <label for="subtitle" class="form-label">Sottotitolo</label>
+                  <input
+                    type="text"
+                    id="subtitle"
+                    class="form-control"
+                    th:field="*{subtitle}"
+                    placeholder="Insert the subtitle here"
+                  />
+                  <p
+                    th:errors="*{subtitle}"
+                    class="text-danger"
+                    th:if="${#fields.hasErrors('subtitle')}"
+                  ></p>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="body" class="form-label">Descrizione:</label>
+                <input
+                  type="text"
+                  id="body"
+                  class="form-control"
+                  th:field="*{body}"
+                  placeholder="Insert the body of the article here"
+                />
+                <p
+                  th:errors="*{body}"
+                  class="text-danger"
+                  th:if="${#fields.hasErrors('body')}"
+                ></p>
+              </div>
+              <div class="mb-3">
+                <label for="date" class="form-label">Publish date</label>
+                <input
+                  type="date"
+                  id="date"
+                  class="form-control"
+                  th:field="*{publishDate}"
+                  placeholder="yyyyMMdd"
+                />
+                <p
+                  th:errors="*{publishDate}"
+                  class="text-danger"
+                  th:if="${#fields.hasErrors('publishDate')}"
+                ></p>
+              </div>
+              <div class="mb-3">
+                <label for="category" class="form-control">Category</label>
+                <select
+                  id="category"
+                  th:field="*{category}"
+                  class="form-select"
+                >
+                  <option
+                    th:each="category:${categories}"
+                    th:value="${category.id}"
+                    th:text="${category.name}"
+                  ></option>
+                  <p
+                    th:errors="*{category}"
+                    class="text-danger"
+                    th:if="${#fields.hasErrors('category')}"
+                  ></p>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="image" class="form-label">Image</label>
+                <input
+                  type="file"
+                  name="file"
+                  id="image"
+                  class="form-control"
+                />
+              </div>
+              <button type="submit" class="btn btn-success">
+                Crea Articolo!
+              </button>
+            </form>
+          </div>
         </div>
+      </div>
+    </div>
     <div th:insert="~{index :: footer}"></div>
     <script th:replace="~{index :: bootstrapScript}"></script>
-</body>
+  </body>
 </html>

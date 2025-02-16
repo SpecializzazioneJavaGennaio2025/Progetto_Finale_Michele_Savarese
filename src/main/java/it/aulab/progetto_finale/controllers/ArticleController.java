@@ -2,6 +2,9 @@ package it.aulab.progetto_finale.controllers;
 
 // import java.lang.ProcessBuilder.Redirect;
 import java.security.Principal;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,11 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+import it.aulab.progetto_finale.dtos.ArticleDto;
 import it.aulab.progetto_finale.dtos.CategoryDto;
 import it.aulab.progetto_finale.models.Article;
 import it.aulab.progetto_finale.models.Category;
@@ -34,6 +40,22 @@ private CrudService<CategoryDto, Category, Long> categoryService;
 
 @Autowired
 private ArticleService articleService;
+
+//! index articoli
+
+@GetMapping
+public String index(Model viewModel){
+viewModel.addAttribute("title", "Articoli");
+List<ArticleDto> articles = articleService.readAll();
+
+Collections.sort(articles, Comparator.comparing(ArticleDto::getPublishDate).reversed());
+viewModel.addAttribute("articles", articles);
+
+
+    return "article/articles";
+}
+
+
 
 //! rotta per la creazione di un articolo
 
@@ -66,4 +88,13 @@ public String articleStore(@Valid @ModelAttribute("article") Article article,
     return "redirect:/";
 }
 
+
+//! rotta per la visualizzazione di un articolo
+@GetMapping("detail/{id}")
+public String detailArticle(@PathVariable("id") Long id, Model viewModel){
+    // ArticleDto article = articleService.read(id);
+    viewModel.addAttribute("title", "Article detail");
+    viewModel.addAttribute("article", articleService.read(id));
+    return "article/detail";
+}
 }

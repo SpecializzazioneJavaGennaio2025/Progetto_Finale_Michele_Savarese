@@ -13,4 +13,6 @@ void saveUser(UserDto userDto, RedirectAttributes redirectAttributes, HttpServle
 
 User findUserByEmail(String email);
 
+User find(Long id);
+
 }

@@ -2,6 +2,10 @@ package it.aulab.progetto_finale.controllers;
 
 // import java.lang.ProcessBuilder.Redirect;
 // import java.text.Bidi;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,13 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult; //!prova
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes; //!prova
 
+import it.aulab.progetto_finale.dtos.ArticleDto;
 import it.aulab.progetto_finale.dtos.UserDto;
 import it.aulab.progetto_finale.models.User; //!prova
-
-
+import it.aulab.progetto_finale.services.ArticleService;
 import it.aulab.progetto_finale.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,10 +33,21 @@ public class UserController {
 
 private UserService userService;
 
+@Autowired
+private ArticleService  articleService;
+
+
 //!rotta di home
 
 @GetMapping("/")
-public String home() {
+public String home(Model viewModel) {
+    List<ArticleDto> articles = articleService.readAll();
+
+Collections.sort(articles, Comparator.comparing(ArticleDto::getPublishDate).reversed());
+
+List<ArticleDto> lastThreeArticles = articles.stream().limit(3).collect(Collectors.toList());
+
+viewModel.addAttribute("articles", lastThreeArticles);
 return "home";
 
 }
@@ -82,5 +98,16 @@ return "redirect:/";
 }
 
 
+//! rotta ricerca articoli per utente
 
+@GetMapping("/search/{id}")
+public String userArticlesSearch(@PathVariable("id") Long id, Model viewModel) {
+    User user = userService.find(id);
+    viewModel.addAttribute("title", "Articoli di " + user.getUsername());
+
+    List<ArticleDto> articles = articleService.searchByAuthor(user);
+    viewModel.addAttribute("articles", articles);
+    return "article/articles";
+
+}
 }

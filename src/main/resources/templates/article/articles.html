@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{index :: head}"></head>
+  <body>
+    <div th:insert="~{index :: nav}"></div>
+
+    <div class="min-vh-100">
+      <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+      </div>
+
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-10 mb-5">
+            <h1 th:text="${title}" class="text-center">Indice</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="container" th:if="${articles}">
+        <div class="row justify-content-center mb-5">
+          <div
+            th:each="article : ${articles}"
+            class="col-12 col-md-4 d-flex justify-content-center"
+          >
+            <div style="width: 18rem" class="card mb-3">
+              <img
+                th:if="${article.image != null}"
+                th:src="${article.image.path}"
+                class="card-img-top"
+                alt="immagine articolo"
+              />
+
+              <img
+                th:unless="${article.image != null}"
+                th:src="@{/images/default.jpg}"
+                class="card-img-top"
+                alt="immagine articolo default"
+              />
+
+              <div class="card-body">
+                <h5 th:text="${article.title}" class="card-title"></h5>
+                <p th:text="${article.subtitle}" class="card-text"></p>
+                <p th:text="${article.user.username}" class="card-text"></p>
+                <a
+                  class="btn btn-primary"
+                  th:href="@{/articles/detail/{id}(id=${article.id})}"
+                  >Approfondisci</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        th:unless="${#lists.size(articles) > 0}"
+        class="row justify-content-center align-items-center vh-100 d-flex"
+      >
+        <div class="col-10 mb-5">
+          <h1 class="text-center">Nessun articolo presente</h1>
+        </div>
+      </div>
+    </div>
+
+    <div th:insert="~{index :: footer}"></div>
+    <script th:replace="~{index :: bootstrapScript}"></script>
+  </body>
+</html>
