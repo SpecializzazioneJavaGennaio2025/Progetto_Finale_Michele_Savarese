@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 // import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,8 @@ import it.aulab.progetto_finale.repositories.RoleRepository;
 import it.aulab.progetto_finale.repositories.UserRepository;
 import it.aulab.progetto_finale.services.CareerRequestService;
 // import org.springframework.web.bind.annotation.RequestParam;
+// import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -72,5 +75,26 @@ public String careerRequestStore(@ModelAttribute("careerRequest") CareerRequest 
 
     return "redirect:/";
 }
+
+
+//! rotta detail request
+
+@GetMapping("/career/request/detail/{id}")
+public String careerRequestDetail(@PathVariable("id") Long id, Model viewModel){
+    viewModel.addAttribute("title", "Dettaglio richiesta");
+    viewModel.addAttribute("request", careerRequestService.find(id));
+
+    return "career/requestDetail";
+}
+
+//! rotta accept request
+@PostMapping("/career/request/accept/{requestId}")
+public String careerRequestAccept(@PathVariable Long requestId, RedirectAttributes redirectAttributes) {
+    careerRequestService.careerAccept(requestId);
+    redirectAttributes.addFlashAttribute("successMessage", "Richiesta accettata con successo");
+
+    return "redirect:/admin/dashboard";
+}
+
 
 }

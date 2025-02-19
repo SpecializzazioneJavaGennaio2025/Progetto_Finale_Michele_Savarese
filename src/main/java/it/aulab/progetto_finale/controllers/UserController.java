@@ -22,6 +22,10 @@ import it.aulab.progetto_finale.dtos.UserDto;
 import it.aulab.progetto_finale.models.User; //!prova
 import it.aulab.progetto_finale.services.ArticleService;
 import it.aulab.progetto_finale.services.UserService;
+import it.aulab.progetto_finale.services.CategoryService;
+import it.aulab.progetto_finale.repositories.CareerRequestRepository;
+
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid; //!prova
@@ -36,6 +40,11 @@ private UserService userService;
 @Autowired
 private ArticleService  articleService;
 
+@Autowired
+private CareerRequestRepository careerRequestRepository;
+
+@Autowired
+private CategoryService categoryService;
 
 //!rotta di home
 
@@ -110,4 +119,15 @@ public String userArticlesSearch(@PathVariable("id") Long id, Model viewModel) {
     return "article/articles";
 
 }
+
+//! rotta per la dashboard dell'admin
+@GetMapping("/admin/dashboard")
+public String adminDashboard(Model viewModel) {
+    viewModel.addAttribute("title", "Richieste ricevute");
+    viewModel.addAttribute("requests", careerRequestRepository.findByIsCheckedFalse());
+    viewModel.addAttribute("categories", categoryService.readAll());
+    return "admin/dashboard";
+
+}
+
 }
