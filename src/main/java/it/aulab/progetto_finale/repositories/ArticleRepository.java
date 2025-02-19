@@ -12,6 +12,12 @@ import it.aulab.progetto_finale.models.Category;
 public interface ArticleRepository extends ListCrudRepository<Article, Long> {
     List<Article> findByCategory(Category category);
     List<Article> findByUser(User user);
+
+    List<Article> findByIsAcceptedTrue();
+    List<Article> findByIsAcceptedFalse();
+    List<Article> findByIsAcceptedNull();
+
+
     // List<Article> findByTitleContaining(String title);
     // List<Article> findByBodyContaining(String body);
     // List<Article> findByTitleContainingAndBodyContaining(String title, String body);

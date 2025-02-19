@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import java.util.stream.Collectors;
 
 import it.aulab.progetto_finale.dtos.ArticleDto;
 import it.aulab.progetto_finale.dtos.CategoryDto;
@@ -47,8 +47,9 @@ public String categorySearch(@PathVariable Long id, Model viewModel) {
 
     List<ArticleDto> articles = articleService.searchByCategory(modelMapper.map(category, Category.class));
 
+    List<ArticleDto> acceptedArticles = articles.stream().filter(article -> Boolean.TRUE.equals(article.getIsAccepted())).collect(Collectors.toList());
 
-    viewModel.addAttribute("articles", articles);
+    viewModel.addAttribute("articles", acceptedArticles);
 
     // viewModel.addAttribute("articles", articleService.findByCategory(category));
     return "article/articles";

@@ -8,8 +8,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 // import it.aulab.progetto_finale.repositories.ArticleRepository;
 import it.aulab.progetto_finale.repositories.CareerRequestRepository;
+import it.aulab.progetto_finale.repositories.ArticleRepository;
+
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 
 @Component
 public class NotificationInterceptor implements HandlerInterceptor{
@@ -17,8 +21,8 @@ public class NotificationInterceptor implements HandlerInterceptor{
     @Autowired
     CareerRequestRepository careerRequestRepository;
 
-    // @Autowired
-    // ArticleRepository articleRepository;
+    @Autowired
+    ArticleRepository articleRepository;
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception{
@@ -26,9 +30,9 @@ public class NotificationInterceptor implements HandlerInterceptor{
             int careerCount = careerRequestRepository.findByIsCheckedFalse().size();
             modelAndView.addObject("careerRequests", careerCount);
         }
-        // if (modelAndView!=null && request.isUserInRole("ROLE_REVISOR")) {
-        //     int revisedCount = articleRepository.findByIsAcceptedNull().size();
-        //     modelAndView.addObject("articlesToBeRevised", revisedCount);
-        // }
+        if (modelAndView!=null && request.isUserInRole("ROLE_REVISOR")) {
+            int revisedCount = articleRepository.findByIsAcceptedNull().size();
+            modelAndView.addObject("articlesToBeRevised", revisedCount);
+        }
     }
 }
