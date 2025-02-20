@@ -21,12 +21,11 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "articles")
-
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +41,6 @@ public class Article {
     @Size(max = 100)
     private String subtitle;
 
-
     @Column(nullable = false, length = 1000)
     @NotEmpty
     @Size(max = 1000)
@@ -52,8 +50,8 @@ public class Article {
     @NotNull
     private LocalDate publishDate;
 
-@Column(nullable = true)
-private Boolean isAccepted;
+    @Column(nullable = true)
+    private Boolean isAccepted;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -64,17 +62,22 @@ private Boolean isAccepted;
     @JsonIgnoreProperties({"articles"})
     private Category category;
 
-@OneToOne(mappedBy = "article")
-@JsonIgnoreProperties({"article"})
-private Image image;
+    @OneToOne(mappedBy = "article")
+    @JsonIgnoreProperties({"articles"})
+    private Image image;
 
-@Override
-public boolean equals(Object obj){
-    Article article = (Article) obj;
+    @Override
+    public boolean equals(Object obj){
+        Article article = (Article) obj;
 
-    if (title.equals(article.getTitle()) && subtitle.equals(article.getSubtitle()) && body.equals(article.getBody()) && publishDate.equals(article.getPublishDate()) && category.getName().equals(article.getCategory().getName()) && image.getPath().equals(article.getImage().getPath())) {
-        return true;
+        if(title.equals(article.getTitle()) &&
+            subtitle.equals(article.getSubtitle()) &&
+            body.equals(article.getBody()) &&
+            publishDate.equals(article.getPublishDate()) &&
+            category.getName().equals(article.getCategory().getName()) &&
+            image.getPath().equals(article.getImage().getPath())){
+                return true;
+        }
+        return false;
     }
-    return false;
-}
 }
