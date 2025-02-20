@@ -3,8 +3,14 @@
   <head th:insert="~{index :: head}"></head>
   <body>
     <head th:insert="~{index :: nav}"></head>
+    <div th:if="${param.notAuthorized}">
+      <div class="alert alert-danger text-center">Non autorizzato</div>
+    </div>
     <div th:if="${successMessage}" class="alert alert-success">
-      <p th:text="${succedMessage}"></p>
+      <p class="text-center" th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger">
+      <p class="text-center" th:text="${errorMessage}"></p>
     </div>
     <div class="container min-vh-100">
       <div class="row">

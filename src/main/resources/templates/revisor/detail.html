@@ -22,13 +22,13 @@
                 <img
                   th:if="${article.image != null}"
                   th:src="${article.image.path}"
-                  class="d-block w-100"
+                  class="card-img-top"
                   alt="..."
                 />
                 <img
                   th:unless="${article.image != null}"
-                  th:src="@{/images/default.png}"
-                  class="d-block w-100"
+                  th:src="@{/images/default.jpg}"
+                  class="card-img-top"
                   alt="..."
                 />
               </div>
@@ -43,7 +43,7 @@
                 class="carousel-control-prev-icon"
                 aria-hidden="true"
               ></span>
-              <span class="visually-hidden">Previous</span>
+              <span class="visually-hidden">Precedente</span>
             </button>
             <button
               class="carousel-control-next"
@@ -55,7 +55,7 @@
                 class="carousel-control-next-icon"
                 aria-hidden="true"
               ></span>
-              <span class="visually-hidden">Next</span>
+              <span class="visually-hidden">Successivo</span>
             </button>
           </div>
 

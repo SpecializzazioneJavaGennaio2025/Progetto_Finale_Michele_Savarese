@@ -10,15 +10,13 @@
     <th:block th:replace="index::navbar"></th:block>
 
     <div th:if="${param.notAuthorized}">
-      <div class="alert alert-danger">Non autorizzato</div>
+      <div class="alert alert-danger text-center">Non autorizzato</div>
     </div>
-
     <div th:if="${successMessage}" class="alert alert-success">
-      <p th:text="${successMessage}"></p>
+      <p class="text-center" th:text="${successMessage}"></p>
     </div>
-
     <div th:if="${errorMessage}" class="alert alert-danger">
-      <p th:text="${errorMessage}"></p>
+      <p class="text-center" th:text="${errorMessage}"></p>
     </div>
 
     <div class="container-fluid">

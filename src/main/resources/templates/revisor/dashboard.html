@@ -3,8 +3,14 @@
   <head th:insert="~{index :: head}"></head>
   <body>
     <head th:insert="~{index :: nav}"></head>
+    <div th:if="${param.notAuthorized}">
+      <div class="alert alert-danger text-center">Non autorizzato</div>
+    </div>
     <div th:if="${successMessage}" class="alert alert-success">
-      <p th:text="${succedMessage}"></p>
+      <p class="text-center" th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger">
+      <p class="text-center" th:text="${errorMessage}"></p>
     </div>
     <div class="container min-vh-100">
       <div class="row">
@@ -25,6 +31,7 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Subtitle</th>
+                <th>Category</th>
                 <th>#Actions</th>
               </tr>
             </thead>
@@ -34,16 +41,15 @@
                 <td th:text="${article.title}"></td>
                 <td th:text="${article.subtitle}"></td>
                 <td
-                  thi:if="${article.category}"
+                  th:if="${article.category}"
                   th:text="${article.category.name}"
                 ></td>
-                <td thi:unless="${article.category}">Nessuna Categoria</td>
-
+                <td th:unless="${article.category}">No category</td>
                 <td>
                   <a
                     th:href="@{/articles/revisor/detail/{id}(id=${article.id})}"
-                    class="btn btn-primary m-2"
-                    >Leggi</a
+                    class="btn btn-primary"
+                    >Approfindisci</a
                   >
                 </td>
               </tr>
@@ -51,47 +57,6 @@
           </table>
         </div>
       </div>
-
-      <!-- <div class="row flex-column align-content-center">
-        <div class="col-12 col-md-9 d-flex justify-content-between">
-          <span class="h1">Tutte le categorie</span>
-          <a th:href="@{/categories/create}" class="btn btn-primary m-2"
-            ><i class="fa-solid fa-plus"></i
-          ></a>
-        </div>
-        <div class="col-12 col-md-6 table-container">
-          <table class="table table-responsive-lg">
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th class="text-end">#Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="category:${categories}">
-                <td th:text="${category.id}"></td>
-                <td th:text="${category.name}"></td>
-                <td class="text-end">
-                  <a
-                    th:href="@{/categories/edit/{id}(id=${category.id})}"
-                    class="btn btn-warning m-2"
-                  >
-                    <i class="fa-solid fa-pencil"></i>
-                  </a>
-
-                  <a
-                    th:href="@{/categories/delete/{id}(id=${category.id})}"
-                    class="btn btn-danger m-2"
-                  >
-                    <i class="fa-solid fa-trash"></i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div> -->
     </div>
 
     <head th:insert="~{index :: footer}"></head>

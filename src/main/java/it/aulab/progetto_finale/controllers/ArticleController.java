@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import java.util.stream.Collectors;
 
 import it.aulab.progetto_finale.dtos.ArticleDto;
 import it.aulab.progetto_finale.dtos.CategoryDto;
@@ -139,4 +140,24 @@ if(action.equals("accept")){
 
     return "redirect:/revisor/dashboard";
 }
+
+//! rotta per la ricerca di un articolo
+
+@GetMapping("/search")
+public String articleSearch(@Param("keyword") String keyword, Model viewModel){
+    viewModel.addAttribute("title", "Search results");{
+List<ArticleDto> articles = articleService.search(keyword);
+
+
+List<ArticleDto> acceptedArticles = articles.stream().filter(article -> Boolean.TRUE.equals(article.getIsAccepted())).collect(Collectors.toList());
+
+viewModel.addAttribute("articles", acceptedArticles);
+    }
+
+
+    return "article/articles";
+}
+
+
+
 }
