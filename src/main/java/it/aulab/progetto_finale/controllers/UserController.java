@@ -2,6 +2,7 @@ package it.aulab.progetto_finale.controllers;
 
 // import java.lang.ProcessBuilder.Redirect;
 // import java.text.Bidi;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -160,5 +161,22 @@ public String revisorDashboard(Model viewModel) {
     return "revisor/dashboard";
 
 }
+
+
+//! rotta per la dashboard dell'arrancar
+@GetMapping("/writer/dashboard")
+public String writerDashboard(Model viewModel, Principal principal) {
+    viewModel.addAttribute("title", "I tuoi articoli");
+
+    List<ArticleDto> userArticles = articleService.readAll()
+    .stream()
+    .filter(article -> article.getUser().getEmail().equals(principal.getName()))
+.toList();
+    viewModel.addAttribute("articles", userArticles);
+    return "writer/dashboard";
+
+}
+
+
 
 }

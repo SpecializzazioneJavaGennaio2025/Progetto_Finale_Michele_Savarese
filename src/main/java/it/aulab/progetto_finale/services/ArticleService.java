@@ -93,13 +93,62 @@ return dto;
 
 
 @Override
-public ArticleDto update(Long key, Article model, MultipartFile file) {
-    throw new UnsupportedOperationException("Unimplemente method update");
+public ArticleDto update(Long key, Article updatedArticle, MultipartFile file) {
+    String url="";
+    if (articleRepository.existsById(key)) {
+        updatedArticle.setId(key);
+        Article article = articleRepository.findById(key).get();
+        updatedArticle.setUser(article.getUser());
+
+        if (!file.isEmpty()) {
+            try {
+                imageService.deleteImage(article.getImage().getPath());
+                try {
+                    CompletableFuture<String> futureUrl = imageService.saveImageOnCloud(file);
+                    url = futureUrl.get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                imageService.saveImageOnDB(url, updatedArticle);
+                updatedArticle.setIsAccepted(null);
+                return modelMapper.map(articleRepository.save(updatedArticle), ArticleDto.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if(article.getImage() == null){
+            updatedArticle.setIsAccepted(article.getIsAccepted());
+        }else{
+            updatedArticle.setImage(article.getImage());
+            if (updatedArticle.equals(article)==false) {
+                updatedArticle.setIsAccepted(null);
+            } else {
+                updatedArticle.setIsAccepted(article.getIsAccepted());
+            }
+            return modelMapper.map(articleRepository.save(updatedArticle), ArticleDto.class);
+        }
+    } else {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    }
+    return null;
 }
+
 
 @Override
 public void delete(Long key) {
-    throw new UnsupportedOperationException("Unimplemente method delete");
+if (articleRepository.existsById(key)) {
+Article article = articleRepository.findById(key).get();
+try {String path = article.getImage().getPath();
+article.getImage().setArticle(null);
+imageService.deleteImage(path);
+} catch (Exception e) {
+e.printStackTrace();
+}
+
+articleRepository.deleteById(key);
+
+} else { throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+}
+
 }
 
 

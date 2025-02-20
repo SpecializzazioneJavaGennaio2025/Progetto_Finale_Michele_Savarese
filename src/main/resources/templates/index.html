@@ -32,7 +32,7 @@
     <!-- fragment body -->
     <!--! Navbar  -->
     <nav
-      th:fragment="navbar"
+      th:fragment="nav"
       class="navbar navbar-expand-lg navbar-light bg-light"
     >
       <div class="container-fluid">
@@ -50,7 +50,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li sec:authorize="isAuthenticated" class="nav-item">
+            <li
+              sec:authorize="isAuthenticated && hasAnyRole('ROLE_ADMIN','ROLE_WRITER')"
+              class="nav-item"
+            >
               <a class="nav-link active" href="/articles/create"
                 >Crea Articolo</a
               >
@@ -72,11 +75,12 @@
               </div>
             </li>
 
-            <li class="nav-item" sec:authorize="hasRole('ROLE_REVISOR')">
+            <li
+              class="nav-item"
+              sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_REVISOR')"
+            >
               <div class="d-flex">
-                <a class="nav-link" href="/revisor/dashboard"
-                  >Revisor Dashboard</a
-                >
+                <a class="nav-link" href="/revisor/dashboard">Revisor</a>
                 <div class="mt-1" th:if="${articlesToBeRevised > 0}">
                   <i class="fas fa-bell fa-1 pt-2"></i>
                   <span
@@ -87,16 +91,12 @@
               </div>
             </li>
 
-            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+            <li
+              class="nav-item"
+              sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_WRITER')"
+            >
               <div class="d-flex">
-                <a class="nav-link" href="/revisor/dashboard">Revisor</a>
-                <div class="mt-1" th:if="${articlesToBeRevised > 0}">
-                  <i class="fas fa-bell fa-1 pt-2"></i>
-                  <span
-                    class="badge rounded-pill bg-danger text-white px-1"
-                    th:text="${articlesToBeRevised}"
-                  ></span>
-                </div>
+                <a class="nav-link" href="/writer/dashboard">Editore</a>
               </div>
             </li>
 

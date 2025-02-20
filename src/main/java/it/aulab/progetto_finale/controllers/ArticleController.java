@@ -113,6 +113,32 @@ public String detailArticle(@PathVariable("id") Long id, Model viewModel){
     return "article/detail";
 }
 
+
+//! rotta per la modifica di un articolo
+@GetMapping("edit/{id}")
+public String editArticle(@PathVariable("id") Long id, Model viewModel){
+    viewModel.addAttribute("title", "Edit Article");
+    viewModel.addAttribute("article", articleService.read(id));
+    viewModel.addAttribute("categories", categoryService.readAll());
+    return "article/edit";
+}
+
+//! rotta per la memorizzazione dell'aggiornamento di un articolo
+@PostMapping("/update/{id}")
+
+public String articleUpdate(@PathVariable("id") Long id, @Valid @ModelAttribute("article") Article article, BindingResult result, RedirectAttributes redirectAttributes, Principal principal, MultipartFile file, Model viewModel){
+    if(result.hasErrors()){
+        viewModel.addAttribute("title", "Edit Article");
+        article.setImage(articleService.read(id).getImage());
+        viewModel.addAttribute("article", article);
+        viewModel.addAttribute("categories", categoryService.readAll());
+        return "article/edit";
+    }
+    articleService.update(id, article,file);
+    redirectAttributes.addFlashAttribute("successMessage", "Articolo modificato correttamente!");
+    return "article/edit";
+}
+
 //! rotta per la visualizzazione di un articolo per revisore
 @GetMapping("revisor/detail/{id}")
 public String revisorDetailArticle(@PathVariable("id") Long id, Model viewModel){
@@ -159,5 +185,12 @@ viewModel.addAttribute("articles", acceptedArticles);
 }
 
 
+//! rotta per la cancellazione di un articolo
+@GetMapping("/delete/{id}")
+public String articleDelete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
+    articleService.delete(id);
+    redirectAttributes.addFlashAttribute("successMessage", "Article deleted with success!");
+    return "redirect:/writer/dashboard";
 
+}
 }

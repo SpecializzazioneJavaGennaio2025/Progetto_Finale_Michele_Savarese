@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{index :: head}"></head>
+  <body>
+    <div th:insert="~{index :: nav}"></div>
+    <div class="min-vh-100">
+      <div class="container-fluid p-5 text-center">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <span class="h1">Modifica Articolo</span>
+            <h2 th:text="${article.title}">Titolo</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row mb-3">
+          <div class="col-12 my-5">
+            <form
+              th:action="@{/articles/update/{id}(id=${article.id})}"
+              method="post"
+              th:object="${article}"
+              enctype="multipart/form-data"
+            >
+              <div class="col">
+                <label for="articleTitle" class="form-label">Titolo</label>
+                <input
+                  id="articleTitle"
+                  type="text"
+                  class="form-control"
+                  th:field="*{title}"
+                  placeholder="Inserisci un titolo"
+                />
+                <p
+                  th:errors="*{title}"
+                  class="text-danger"
+                  th:if="${#fields.hasErrors('title')}"
+                ></p>
+              </div>
+              <div class="col">
+                <label for="subtitle" class="form-label">Sottotitolo</label>
+                <input
+                  type="text"
+                  id="subtitle"
+                  class="form-control"
+                  th:field="*{subtitle}"
+                  placeholder="Inserisci un sottotitolo"
+                />
+                <p
+                  th:errors="*{subtitle}"
+                  class="text-danger"
+                  th:if="${#fields.hasErrors('subtitle')}"
+                ></p>
+              </div>
+              <div class="mb-3">
+                <label for="body" class="form-label">Contenuto</label>
+                <input
+                  id="body"
+                  type="text"
+                  class="form-control"
+                  th:field="*{body}"
+                  placeholder="Contenuto dell'articolo"
+                />
+                <p
+                  th:errors="*{body}"
+                  class="text-danger"
+                  th:if="${#fields.hasErrors('body')}"
+                ></p>
+              </div>
+              <div class="mb-3">
+                <label for="date" class="form-label"
+                  >Publish date: (8 chars)</label
+                >
+                <input
+                  type="date"
+                  id="date"
+                  class="form-control"
+                  th:field="*{publishDate}"
+                  placeholder="Data di pubblicazione"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select
+                  id="category"
+                  th:field="*{category}"
+                  class="form-select"
+                >
+                  <option
+                    th:each="category:${categories}"
+                    th:value="${category.id}"
+                    th:text="${category.name}"
+                  ></option>
+                  <p
+                    th:errors="*{category}"
+                    class="text-danger"
+                    th:if="${#fields.hasErrors('category')}"
+                  ></p>
+                </select>
+              </div>
+              <div
+                class="mb-3 d-flex flex-column"
+                th:if="${article.image != null}"
+              >
+                <label for="image" class="form-label">Immagine</label>
+                <img
+                  th:src="${article.image.path}"
+                  id="image"
+                  alt="${article.image.path}"
+                />
+              </div>
+              <div th:unless="${article.image != null}">
+                <label for="image" class="form-label">Immagine</label>
+                <p>Immagine non caricata.</p>
+              </div>
+              <div class="mb-3">
+                <label for="image" class="form-label">Image</label>
+                <input
+                  type="file"
+                  name="file"
+                  id="image"
+                  class="form-control"
+                />
+              </div>
+              <button type="submit" class="btn btn-success">
+                Inserisci modifiche
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div th:insert="~{index :: footer}"></div>
+    <script th:replace="~{index :: bootstrapScript}"></script>
+  </body>
+</html>
